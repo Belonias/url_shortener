@@ -1,1 +1,7 @@
-<h1> inception </h1>
+<div style='width: 800px; margin: 0 auto;'>
+<h1> Form </h1>
+
+  <form method='POST' action='.'> {% csrf_token %}
+  <input name='url' type='text' placeholder="Shorten your URL" />
+  <input type='submit' value="Shorten" />
+</form>
