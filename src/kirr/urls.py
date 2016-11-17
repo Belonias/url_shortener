@@ -15,18 +15,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from shortener.views import kirr_redirect_view, KirrCBView
-
-# DO NOT DO
-# from shortener import views
-# from another_app.views import views
+from shortener.views import HomeView, KirrCBView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^(?P<shortcode>[\w-]+){6,15}/$', kirr_redirect_view),
-    url(r'^b/(?P<shortcode>[\w-]+){6,15}/$', KirrCBView.as_view()), #joincfe.com/projects/ python regex
-
-    # DO NOT DO
-    #url(r'^abc/$', 'shortener.views.kirr_redirect_view' ),
-    # url(r'^abc/$', views.kirr_redirect_view ),
+    url(r'^$', HomeView.as_view()),
+    url(r'^b/(?P<shortcode>[\w-]+){6,15}/$', KirrCBView.as_view()),
 ]
