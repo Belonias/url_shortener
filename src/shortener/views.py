@@ -1,6 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views import View
+
+from analytics.models import ClickEvent
 
 from .forms import SubmitUrlForm
 from .models import KirrURL
@@ -20,7 +22,7 @@ class HomeView(View):
             "title": "Kirr.co",
             "form": the_form
         }
-        return render(request, "shortener/home.html", context)
+        return render(request, "shortener/home.html", context) # Try Django 1.8 & 1.9 http://joincfe.com/youtube
 
     def post(self, request, *args, **kwargs):
         form = SubmitUrlForm(request.POST)
@@ -30,8 +32,8 @@ class HomeView(View):
         }
         template = "shortener/home.html"
         if form.is_valid():
-            submited_url = form.cleaned_data.get("url")
-            obj, created = KirrURL.objects.get_or_create(url=submited_url)
+            new_url = form.cleaned_data.get("url")
+            obj, created = KirrURL.objects.get_or_create(url=new_url)
             context = {
                 "object": obj,
                 "created": created,
@@ -39,12 +41,16 @@ class HomeView(View):
             if created:
                 template = "shortener/success.html"
             else:
-                template = "shortener/exists.html"
+                template = "shortener/already-exists.html"
 
-        return render(request, template, context)
+        return render(request, template ,context)
 
 
-class KirrCBView(View): #class based view
+class URLRedirectView(View):
     def get(self, request, shortcode=None, *args, **kwargs):
-        obj = get_object_or_404(KirrURL, shortcode=shortcode)
+        qs = KirrURL.objects.filter(shortcode__iexact=shortcode)
+        if qs.count() != 1 and not qs.exists():
+            raise Http404
+        obj = qs.first()
+        print(ClickEvent.objects.create_event(obj))
         return HttpResponseRedirect(obj.url)

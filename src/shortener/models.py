@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.db import models
+
 #from django.core.urlresolvers import reverse
 from django_hosts.resolvers import reverse
-from .validators import validate_dot_com, validate_url
-from .utils import code_generator, create_shortcode
 # Create your models here.
-
+from .utils import code_generator, create_shortcode
+from .validators import validate_url, validate_dot_com
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
 
@@ -35,7 +35,9 @@ class KirrURL(models.Model):
     updated     = models.DateTimeField(auto_now=True) #everytime the model is saved
     timestamp   = models.DateTimeField(auto_now_add=True) #when model was created
     active      = models.BooleanField(default=True)
+
     objects = KirrURLManager()
+
 
     def save(self, *args, **kwargs):
         if self.shortcode is None or self.shortcode == "":
@@ -49,13 +51,5 @@ class KirrURL(models.Model):
         return str(self.url)
 
     def get_short_url(self):
-        url_path = reverse("scode", kwargs={'shortcode' : self.shortcode}, host='www', scheme='http')
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
         return url_path
-
-
-
-'''
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-'''
