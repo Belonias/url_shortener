@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dr8qwm#d#*rpn-!t3-4pklxo%elodx7#%9fd1i7k)04q0y@pq-'
+SECRET_KEY = 'fh%ph!883s-^crxd_m#5m+$unko3*j1-emf@8=^!fb&9$%a!#!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tirr.com', 'www.tirr.com', 'www.kirr.co', 'kirr.co']
 
 
 # Application definition
@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #third party apps
+
+    #third party
     'django_hosts',
 
     #custom app
-    'shortener',
     'analytics',
+    'shortener',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'kirr.urls'
 ROOT_HOSTCONF = 'kirr.hosts'
 DEFAULT_HOST = 'www'
-DEFAULT_REDIRECT_URL = "http://www.tirr.com:8000"
+DEFAULT_REDIRECT_URL = "http://www.tirr.com:8000" #kirr.co
 PARENT_HOST = "tirr.com:8000"
 
 TEMPLATES = [
@@ -134,3 +135,7 @@ STATIC_URL = '/static/'
 
 SHORTCODE_MAX = 15
 SHORTCODE_MIN = 6
+
+
+
+

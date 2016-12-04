@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-
+from django.utils.encoding import smart_text
 #from django.core.urlresolvers import reverse
 from django_hosts.resolvers import reverse
 # Create your models here.
@@ -37,19 +37,40 @@ class KirrURL(models.Model):
     active      = models.BooleanField(default=True)
 
     objects = KirrURLManager()
-
+ 
 
     def save(self, *args, **kwargs):
         if self.shortcode is None or self.shortcode == "":
             self.shortcode = create_shortcode(self)
+        if not "http" in self.url:
+            self.url = "http://" + self.url
         super(KirrURL, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.url)
+        '''
+        Added 'smart_text' function for rendering issues within
+        Admin console. This code was after series completed.
+        Updated: October 24 2016
+        '''
+        return smart_text(self.url)
 
     def __unicode__(self):
-        return str(self.url)
+        '''
+        Added 'smart_text' function for rendering issues within
+        Admin console. This code was after series completed.
+        Updated: October 24 2016
+        '''
+        return smart_text(self.url)
 
     def get_short_url(self):
         url_path = reverse("scode", kwargs={'shortcode': self.shortcode}, host='www', scheme='http')
         return url_path
+
+
+
+
+
+
+
+
+

@@ -18,9 +18,11 @@ def home_view_fbv(request, *args, **kwargs):
 class HomeView(View):
     def get(self, request, *args, **kwargs):
         the_form = SubmitUrlForm()
+        bg_image = 'https://upload.wikimedia.org/wikipedia/commons/0/05/20100726_Kalamitsi_Beach_Ionian_Sea_Lefkada_island_Greece.jpg'
         context = {
             "title": "Kirr.co",
-            "form": the_form
+            "form": the_form,
+            "bg_image": bg_image
         }
         return render(request, "shortener/home.html", context) # Try Django 1.8 & 1.9 http://joincfe.com/youtube
 
@@ -42,7 +44,7 @@ class HomeView(View):
                 template = "shortener/success.html"
             else:
                 template = "shortener/already-exists.html"
-
+    
         return render(request, template ,context)
 
 
@@ -54,3 +56,8 @@ class URLRedirectView(View):
         obj = qs.first()
         print(ClickEvent.objects.create_event(obj))
         return HttpResponseRedirect(obj.url)
+        
+
+
+
+
