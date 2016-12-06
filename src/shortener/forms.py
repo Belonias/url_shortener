@@ -5,7 +5,7 @@ from .validators import validate_url, validate_dot_com
 
 class SubmitUrlForm(forms.Form):
     url = forms.CharField(
-            label='', 
+            label='',
             validators=[validate_url],
             widget = forms.TextInput(
                     attrs ={
@@ -27,8 +27,8 @@ class SubmitUrlForm(forms.Form):
     #     return url
     #     #print(url)
 
-    # def clean_url(self):
-    #     url = self.cleaned_data['url']
-    #     if "http" in url:
-    #         return url
-    #     return "http://" + url
+#    def clean_url(self):
+#        url = self.cleaned_data['url']
+#        if "http" in url:
+#            return url
+#        return "http://" + url
